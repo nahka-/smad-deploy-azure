@@ -12,7 +12,7 @@ variable "project_name" {
 
 # You can use the same resource group that was used with K8S cluster in AKS
 variable "container_registry_resource_group_suffix" {
-  default = "k8stest-rg"
+    default = "k8stestcr-rg"
 }
 
 # alpha numeric characters only are allowed
