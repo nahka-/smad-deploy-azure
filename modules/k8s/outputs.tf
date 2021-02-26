@@ -1,3 +1,11 @@
+output "cluster_name" {
+    value = azurerm_kubernetes_cluster.k8s_cluster.name
+}
+
+output "cluster_resource_group_name" {
+    value = azurerm_kubernetes_cluster.k8s_cluster.resource_group_name
+}
+
 output "client_key" {
   value = azurerm_kubernetes_cluster.k8s_cluster.kube_config.0.client_key
 }
