@@ -56,18 +56,18 @@ resource "helm_release" "hono" {
 }
 
 resource "helm_release" "jaeger-operator" {
-  name       = "jaeger-operator"
+  name = "jaeger-operator"
 
   repository = "https://jaegertracing.github.io/helm-charts"
   chart      = "jaeger-operator"
 
   set {
-    name = "jaeger.create"
+    name  = "jaeger.create"
     value = "true"
   }
 
   set {
-    name = "metadata.name"
+    name  = "metadata.name"
     value = "simple"
   }
 } 
