@@ -61,7 +61,7 @@ jobs:
       #continue-on-error: true
       
   test_deploy_hono_module:
-    name: 'Test 02_deploy_hono module with Terraform Validate and plan''
+    name: 'Test 02_deploy_hono module with Terraform Validate and plan'
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
 
