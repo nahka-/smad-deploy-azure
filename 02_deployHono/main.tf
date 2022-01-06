@@ -205,4 +205,4 @@ resource "azurerm_role_assignment" "k8s-storage-role-ass" {
   principal_id                     = module.k8s.mi_principal_id
   skip_service_principal_aad_check = true
 }
- 
+
