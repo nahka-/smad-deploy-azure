@@ -15,8 +15,8 @@ env:
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
-  test_storage_rg_module:
-    name: 'Test 01_Storage_rg module with Terraform Validate and plan'
+  test_storagerg_module:
+    name: 'Test and deploy 01_Storage_rg module with Terraform Validate and plan'
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
 
@@ -59,9 +59,13 @@ jobs:
       id: plan
       run: terraform plan
       #continue-on-error: true
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -auto-approve
       
-  test_deploy_hono_module:
+  test_deployhono_module:
     name: 'Test 02_deploy_hono module with Terraform Validate and plan'
+    needs: test_storagerg_module
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
 
@@ -104,6 +108,40 @@ jobs:
       id: plan
       run: terraform plan
       #continue-on-error: true
+  
+  destroy_storagerg_module:
+    name: 'Destroy 01_Storage_rg module from Azure subscription'
+    needs: test_deployhono_module
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./01_storage_rg
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+    # Install the latest version of Terraform CLI. Enable wrapper for output
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_wrapper: true
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      id: init
+      run: terraform init
+
+    - name: Terraform Destroy
+      id: destroy
+      run: terraform destroy -auto-approve
+
       
     # TODO
     # Make a better output
