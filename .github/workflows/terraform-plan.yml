@@ -16,7 +16,7 @@ env:
 
 jobs:
   test_storage_rg_module:
-    name: 'Terraform Validate and plan Storage_rg module'
+    name: 'Test 01_Storage_rg module with Terraform Validate and plan'
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
 
@@ -61,7 +61,7 @@ jobs:
       #continue-on-error: true
       
   test_deploy_hono_module:
-    name: 'Terraform Validate and plan deploy_hono module'
+    name: 'Test 02_deploy_hono module with Terraform Validate and plan''
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.labels.*.name, 'safe-to-test')
 
